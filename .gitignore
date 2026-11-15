@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.pyo
+reark_demo_samples/
+launch_reark_win10_safe.cmd

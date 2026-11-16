@@ -1,36 +1,42 @@
-# SI-ReArk-MCP
+# SI-ReArk-Studio 2.0 (`si-reark-mcp`)
 
-Open-source **Model Context Protocol (MCP) Server, Multi-Binary Tabbed Inspector, High-Contrast Daylight Accessibility Mode & Windows 10 Startup Doctor** for **[ReArk (`lkimuk/ReArk`)](https://github.com/lkimuk/ReArk)**.
+**Free, Zero-API-Key Local AI Reverse-Engineering Suite & Companion Engine for [`lkimuk/ReArk`](https://github.com/lkimuk/ReArk).**
 
-ReArk brings AI-assisted binary, HarmonyOS NEXT (`.hap`/`.abc`), Android (`.apk`), iOS (`.ipa`), and PE/ELF static analysis in one desktop app — and ReArk users requested an MCP server, multi-binary tabs, higher readability contrast (Issue **#31**), plus a fix for Windows 10 silent startup failures (Issue **#35**). **SI-ReArk-MCP** delivers all three in pure zero-dependency Python.
+Built completely in zero-dependency Python Stdlib (`pe/elf/apk` inspection, pure-Python AXML binary manifest decoder, local HTTP AI repair proxy, Web Studio, Tkinter Desktop Control Hub, and 8-tool STDIO MCP server) — solving the top open community issues in `lkimuk/ReArk`:
 
-## Features Implemented
+| ReArk Community Pain / Open Issue | What SI-ReArk-Studio 2.0 Actually Solves |
+|---|---|
+| **Issues #20, #16, #9** — *"Request body is empty" (`Agent 报错：“请求体为空”`)* | **Live Local AI Repair Proxy (`127.0.0.1:11436` -> `:11434`)**: Repairs empty/malformed POST bodies, injects missing `model` / `messages` / `num_ctx=32768`, disables broken chunked streaming cleanly, and tracks live repair telemetry. |
+| **Issue #36** — *Packer & Unpacking Support (`可以加个脱壳功能不`)* | **SHA-256 Safe Unpacker Engine**: Detects `UPX`, `ASPack`, `VMProtect`, `Themida`, `MPRESS`, `PyInstaller`, and `ConfuserEx`, saves an immutable SHA-256 `.bak` copy, runs `upx -d` automatically when available, and extracts clean embedded `MZ...PE\x00\x00` payloads from overlays. |
+| **Issue #35** — *Windows 10 Silent Launch Crash + APK JDK Trap* | **Win10 + JDK 17+ Launch Doctor & Release Fetcher**: Checks Edge WebView2, VC++ 2015-2022 DLLs, non-ASCII path hazards, and distinguishes full `JDK (javac.exe)` from bare `JRE`, plus 1-click official ReArk download & `launch_reark_win10_safe.cmd` generation. |
+| **Issue #31** — *MCP Server, Multi-Tab Diff & Contrast Toggle* | **1-Click 4-Client MCP Auto-Wire + Rollback + Daylight Mode**: Registers **8 real MCP tools** into Claude Desktop, Claude Code, Antigravity, and Cursor with SHA-256 backups, 1-click rollback, Multi-Binary Tab Diff, and High-Contrast Daylight mode. |
+| **Compiled Android `AndroidManifest.xml` unreadable in plain tools** | **Pure-Python Binary AXML (`0x00080003`) Decoder**: Extracts package name, permissions, activities, and URLs straight out of compiled `.apk` manifests with zero Java required. |
 
-| Module | GitHub Issue Addressed | What It Delivers |
-| --- | --- | --- |
-| **1. Standard `stdio` MCP Server (`5` Tools)** | **Issue #31** | Connects PE/ELF/Mach-O/APK/HAP static headers, Shannon packing entropy, AES/SHA-256/ChaCha20 signature scanning, URL/JNI string extraction, and multi-binary diffing directly to Claude Code, Cursor, or `$0.00` local Ollama |
-| **2. Multi-Binary Tabs + High-Contrast Daylight Mode** | **Issue #31** | Inspect and diff multiple binaries side-by-side in simultaneous tabs with a 1-click **High-Contrast Daylight** toggle (`#020617` on `#ffffff`) replacing dim gray-on-black text |
-| **3. Windows 10 Silent Startup Doctor** | **Issue #35** | Audits WebView2 Runtime, VC++ x64 DLLs, UTF-8 paths, and writes `launch_reark_win10_safe.cmd` with `--disable-gpu --no-sandbox` + diagnostic logging |
+---
 
-## Quick Start
+## Quick Start (3 Steps + Bonus)
 
-```bash
-# 1. Start the stdio MCP Server for Claude Code / Ollama / Cursor
-python si_reark_mcp.py mcp
+### Step 1 — 1-Click Launch (Zero Terminal Knowledge Needed)
+Double-click `Launch_SI_ReArk_Studio.bat` (or run `python si_reark_mcp.py desktop`).
+It launches the **Tkinter Control Hub**, starts the **Web Studio (`http://127.0.0.1:8792`)**, and runs the **AI Repair Proxy (`http://127.0.0.1:11436/v1`)** in parallel with sample PE + APK binaries ready to inspect immediately.
 
-# 2. Launch Multi-Binary Tabbed Web Inspector (supports ?theme=light High-Contrast mode)
-python si_reark_mcp.py ui --files target_v1.dll target_v2.dll app.apk --port 8792
+### Step 2 — Unpack `#36` & Decode Binary APK AXML
+Load any `.exe`, `.dll`, `.apk`, or `.hap` directly from the UI or desktop file picker to inspect PE sections, Shannon entropy, AES/SHA-256/ChaCha20 crypto constants, unpackers, and compiled Android `AndroidManifest.xml` permissions.
 
-# 3. Run Windows 10 Silent Launch Doctor inside your ReArk folder
-python si_reark_mcp.py win10-doctor --reark-dir "C:\Path\To\ReArk"
+### Step 3 — Fix ReArk Agent Empty Body `#20` + Wire MCP `#31`
+In ReArk's Local LLM settings, set:
+- **Base URL**: `http://127.0.0.1:11436/v1`
+- **Model**: `qwen2.5-coder:14b` (or any pulled Ollama model)
+- **API Key**: `local-free-zero-cost`
 
-# 4. Run CLI inspection or binary diff
-python si_reark_mcp.py inspect target.dll
-python si_reark_mcp.py diff old.dll new.dll
-```
+Click **1-Click Wire Into All 4 AI Clients** in the MCP tab (or run `python si_reark_mcp.py wire-mcp`) to add 8 reverse-engineering tools directly to Claude Desktop, Claude Code, Antigravity, and Cursor.
 
-## Automated Tests
+### Bonus — Fix Win10 Silent Crash & JDK 17+ Trap `#35`
+Open the **Win10 + JDK17 Fix #35** tab (or run `python si_reark_mcp.py win10-doctor --reark-dir C:\ReArk`) to check your Java JDK `javac.exe` path, download the latest official ReArk Windows release, and generate `launch_reark_win10_safe.cmd`.
 
-```bash
+---
+
+## Verification
+```powershell
 python -m unittest test_reark_mcp.py -v
 ```
